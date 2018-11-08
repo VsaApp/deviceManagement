@@ -1,0 +1,40 @@
+{
+  "name": "devicemanagement",
+  "version": "1.0.0",
+  "description": "A device management API for VSA",
+  "main": "src/index.ts",
+  "scripts": {
+    "start": "MODE=prod ts-node .",
+    "test": "MODE=dev jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VsaApp/deviceManagement.git"
+  },
+  "author": "Jan-Luca Döen",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/VsaApp/deviceManagement/issues"
+  },
+  "homepage": "https://github.com/VsaApp/deviceManagement#readme",
+  "devDependencies": {
+    "@types/cors": "^2.8.4",
+    "@types/express": "^4.16.0",
+    "@types/jest": "^23.3.9",
+    "@types/supertest": "^2.0.6",
+    "jest": "^23.6.0",
+    "ts-jest": "^23.10.4",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.1.6"
+  },
+  "dependencies": {
+    "@babel/cli": "^7.1.5",
+    "@babel/core": "^7.1.5",
+    "@babel/preset-env": "^7.1.5",
+    "@babel/preset-typescript": "^7.1.0",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "superagent": "^4.0.0-beta.5",
+    "supertest": "^3.3.0"
+  }
+}
