@@ -2,7 +2,7 @@ import crypto from 'crypto';
 import request from 'supertest';
 import app from '../app';
 import auth from '../routes/users/auth';
-import {getPermissions} from "../routes/users/permissions";
+import {addPermission, getPermissions, hasPermission, permissions, removePermission} from "../routes/users/permissions";
 
 describe('Users', () => {
     let user = 'test';
@@ -50,8 +50,17 @@ describe('Users', () => {
         test('User ' + user + ' has no permissions', () =>
             expect(getPermissions(user)).toEqual([])
         );
-        test('User ' + user + ' has no permissions', () =>
-            expect(getPermissions(user)).toEqual([])
+        test('Add permission to user ' + user, () =>
+            expect(addPermission(user, permissions.ALL)).toBeUndefined()
+        );
+        test('User ' + user + ' got permission', () =>
+            expect(hasPermission(user, permissions.ALL)).toBeTruthy()
+        );
+        test('Remove permission from user ' + user, () =>
+            expect(removePermission(user, permissions.ALL)).toBeUndefined()
+        );
+        test('User ' + user + ' got permission removed', () =>
+            expect(hasPermission(user, permissions.ALL)).toBeFalsy()
         );
     });
 });

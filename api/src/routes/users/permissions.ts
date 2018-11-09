@@ -32,5 +32,5 @@ export const getPermissions = (username: string) => {
 };
 
 export const hasPermission = (username: string, permission: permissions) => {
-    return (db.get('users') || []).filter((user: { username: string, role: number }) => user.username === username)[0].permission.includes(permission.toString());
+    return (db.get('users') || []).filter((user: { username: string, role: number }) => user.username === username)[0].permissions.includes(permission.toString());
 };

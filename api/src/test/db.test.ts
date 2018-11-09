@@ -2,7 +2,7 @@ import db from '../db';
 
 describe('Database', () => {
     test('Default values set', () =>
-        expect(db.get('users')).toEqual([{username: 'admin', password: '', role: 100}])
+        expect(db.get('users')).toEqual([{username: 'admin', password: '', permissions: []}])
     );
     test('Set a value', () =>
         expect(db.set('test', '123')).toBeUndefined()

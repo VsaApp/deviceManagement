@@ -3,7 +3,7 @@ import path from 'path';
 
 const file = path.resolve(process.cwd(), 'db.json');
 
-let data = {users: [{username: 'admin', password: '', role: 100}]};
+let data = {users: [{username: 'admin', password: '', permissions: []}]};
 
 if (process.env.MODE === 'prod') {
     if (!fs.existsSync(file)) {
