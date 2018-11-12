@@ -6,10 +6,12 @@ import {
     addPermission,
     getPermissions,
     hasPermission,
+    permissionExists,
     permissions,
     permissionToString,
-    removePermission
-} from "../routes/users/permissions";
+    removePermission,
+    stringToPermission
+} from '../routes/users/permissions';
 
 describe('Users', () => {
     let user = 'test';
@@ -49,29 +51,50 @@ describe('Users', () => {
             expect(auth.isValid(authStr + '123')).toBeFalsy();
         });
         test('Login working', () => {
-            request(app).get('/users/login/' + authStr).then((response: any) => expect(response.body).toEqual({status: 'Valid login'}));
-            request(app).get('/users/login/' + authStr + '123').then((response: any) => expect(response.body).toEqual({status: 'Invalid login'}));
+            request(app)
+                .get('/users/login/' + authStr)
+                .then((response: any) =>
+                    expect(response.body).toEqual({status: 'Valid login'})
+                );
+            request(app)
+                .get('/users/login/' + authStr + '123')
+                .then((response: any) =>
+                    expect(response.body).toEqual({status: 'Invalid login'})
+                )
         });
         test('Extract username correctly', () => {
             expect(auth.getUsername(authStr)).toBe('admin');
         });
     });
     describe('Permissions', () => {
-        test('Convert permissions correctly', () =>
-            expect(permissionToString(permissions.ALL)).toEqual('ALL')
-        );
-        test('User ' + user + ' has no permissions', () =>
-            expect(getPermissions(user)).toEqual([])
-        );
-        test('Add permission to user ' + user, () =>
-            expect(addPermission(user, permissions.ALL)).toBeUndefined()
-        );
-        test('User ' + user + ' got permission', () =>
-            expect(hasPermission(user, permissions.ALL)).toBeTruthy()
-        );
-        test('Remove permission from user ' + user, () =>
-            expect(removePermission(user, permissions.ALL)).toBeUndefined()
-        );
+        test('Convert permissions correctly', () => {
+            expect(permissionToString(permissions.ALL)).toEqual('ALL');
+            expect(stringToPermission('ALL')).toEqual(permissions.ALL);
+        });
+        test('Check unknown permissions', () => {
+            expect(permissionExists('ALL')).toBeTruthy();
+            expect(permissionExists('123')).toBeFalsy();
+        });
+        test('User ' + user + ' has no permissions', async () => {
+            expect(getPermissions(user)).toEqual([]);
+            const response = await request(app).get('/users/info/' + user);
+            expect(response.body.permissions).toEqual([]);
+        });
+        test('Add permission to user ' + user, async () => {
+            expect(addPermission(user, permissions.ALL)).toBeUndefined();
+            const response = await request(app).get('/users/permissions/add/' + authStr + '/' + user + '/ALL');
+            expect(response.body).toEqual({status: 'Added permission'});
+        });
+        test('User ' + user + ' got permission', async () => {
+            expect(hasPermission(user, permissions.ALL)).toBeTruthy();
+            const response = await request(app).get('/users/info/' + user);
+            expect(response.body.permissions).toEqual([permissionToString(permissions.ALL)]);
+        });
+        test('Remove permission from user ' + user, async () => {
+            expect(removePermission(user, permissions.ALL)).toBeUndefined();
+            const response = await request(app).get('/users/permissions/remove/' + authStr + '/' + user + '/ALL');
+            expect(response.body).toEqual({status: 'Removed permission'});
+        });
         test('User ' + user + ' got permission removed', () =>
             expect(hasPermission(user, permissions.ALL)).toBeFalsy()
         );

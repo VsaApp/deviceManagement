@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import {permissions, permissionToString} from "./routes/users/permissions";
+import {permissions, permissionToString} from './routes/users/permissions';
 
 const file = path.resolve(process.cwd(), 'db.json');
 

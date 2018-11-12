@@ -32,9 +32,19 @@ export const getPermissions = (username: string) => {
 };
 
 export const hasPermission = (username: string, permission: permissions) => {
-    return (db.get('users') || []).filter((user: { username: string, role: number }) => user.username === username)[0].permissions.includes(permissionToString(permission));
+    const user = (db.get('users') || []).filter((user: { username: string, role: number }) => user.username === username)[0];
+    return user.permissions.includes(permissionToString(permission)) || user.permissions.includes(permissionToString(permissions.ALL));
 };
 
 export const permissionToString = (permission: permissions) => {
     return permissions[permission];
+};
+
+export const stringToPermission = (permission: string) => {
+    return (<any>permissions)[permission];
+};
+
+export const permissionExists = (permission: string) => {
+    for (const k in permissions) if (permissions[k] == permission) return true;
+    return false;
 };
