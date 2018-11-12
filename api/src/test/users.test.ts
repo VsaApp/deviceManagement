@@ -2,7 +2,14 @@ import crypto from 'crypto';
 import request from 'supertest';
 import app from '../app';
 import auth from '../routes/users/auth';
-import {addPermission, getPermissions, hasPermission, permissions, removePermission} from "../routes/users/permissions";
+import {
+    addPermission,
+    getPermissions,
+    hasPermission,
+    permissions,
+    permissionToString,
+    removePermission
+} from "../routes/users/permissions";
 
 describe('Users', () => {
     let user = 'test';
@@ -45,8 +52,14 @@ describe('Users', () => {
             request(app).get('/users/login/' + authStr).then((response: any) => expect(response.body).toEqual({status: 'Valid login'}));
             request(app).get('/users/login/' + authStr + '123').then((response: any) => expect(response.body).toEqual({status: 'Invalid login'}));
         });
+        test('Extract username correctly', () => {
+            expect(auth.getUsername(authStr)).toBe('admin');
+        });
     });
     describe('Permissions', () => {
+        test('Convert permissions correctly', () =>
+            expect(permissionToString(permissions.ALL)).toEqual('ALL')
+        );
         test('User ' + user + ' has no permissions', () =>
             expect(getPermissions(user)).toEqual([])
         );

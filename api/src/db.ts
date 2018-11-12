@@ -1,9 +1,10 @@
 import fs from 'fs';
 import path from 'path';
+import {permissions, permissionToString} from "./routes/users/permissions";
 
 const file = path.resolve(process.cwd(), 'db.json');
 
-let data = {users: [{username: 'admin', password: '', permissions: []}]};
+let data = {users: [{username: 'admin', password: '', permissions: [permissionToString(permissions.ALL)]}]};
 
 if (process.env.MODE === 'prod') {
     if (!fs.existsSync(file)) {

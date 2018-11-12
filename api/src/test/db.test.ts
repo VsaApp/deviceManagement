@@ -1,8 +1,13 @@
 import db from '../db';
+import {permissions, permissionToString} from "../routes/users/permissions";
 
 describe('Database', () => {
     test('Default values set', () =>
-        expect(db.get('users')).toEqual([{username: 'admin', password: '', permissions: []}])
+        expect(db.get('users')).toEqual([{
+            username: 'admin',
+            password: '',
+            permissions: [permissionToString(permissions.ALL)]
+        }])
     );
     test('Set a value', () =>
         expect(db.set('test', '123')).toBeUndefined()
