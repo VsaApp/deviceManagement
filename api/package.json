@@ -35,8 +35,10 @@
     "@babel/core": "^7.1.5",
     "@babel/preset-env": "^7.1.5",
     "@babel/preset-typescript": "^7.1.0",
+    "@types/got": "^9.2.0",
     "cors": "^2.8.5",
     "express": "^4.16.4",
+    "got": "^9.3.2",
     "superagent": "^4.0.0-beta.5",
     "supertest": "^3.3.0"
   },
