@@ -12,3 +12,9 @@ yarn start
 ```bash
 yarn test
 ```
+
+### Generate documentation
+```bash
+yarn doc
+```
+Then open api/doc/index.html

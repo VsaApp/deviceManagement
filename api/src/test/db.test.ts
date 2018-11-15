@@ -1,5 +1,5 @@
 import db from '../db';
-import {permissions, permissionToString} from '../routes/users/permissions';
+import {permissions, permissionToString} from '../routes/permissons/permissions';
 
 describe('Database', () => {
     test('Default values set', () =>
