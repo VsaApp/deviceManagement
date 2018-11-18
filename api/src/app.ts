@@ -26,6 +26,8 @@ setInterval(importAllDevices, 60000);
 function importAllDevices() {
     importZuludeskDevices().then(devices => {
         overwriteDevices(devices);
+    }).catch(msg => {
+        console.error(msg);
     });
 }
 

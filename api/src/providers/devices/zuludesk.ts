@@ -1,8 +1,10 @@
 import got from 'got';
 import db from '../../db';
 
-if (db.get('zuludesk') === undefined) {
-    throw 'Missing Zuludesk authentication string';
+if (process.env.MODE === 'prod') {
+    if (db.get('zuludesk') === undefined) {
+        throw 'Missing Zuludesk authentication string';
+    }
 }
 
 export const importZuludeskDevices = () => {
@@ -23,6 +25,12 @@ export const importZuludeskDevices = () => {
                     battery: device.batteryLevel
                 };
             }));
-        }).catch(console.error);
+        }).catch(err => {
+            try {
+                resolve(JSON.parse(err.body));
+            } catch (e) {
+                resolve(err.body);
+            }
+        });
     }));
 };
