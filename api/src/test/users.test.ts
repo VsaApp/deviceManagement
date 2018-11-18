@@ -39,6 +39,13 @@ describe('Users', () => {
                 expect(response.body).toEqual({username: user, permissions: []})
             )
     );
+    test('Check not existing user NOTEXISTINGUSER info', () =>
+        request(app)
+            .get('/users/info/' + 'NOTEXISTINGUSER')
+            .then((response: any) =>
+                expect(response.body).toEqual({error: 'NotExists'})
+            )
+    );
 
     // Deleting users...
     test('Delete user ' + user, () =>

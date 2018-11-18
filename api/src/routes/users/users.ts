@@ -62,7 +62,7 @@ usersRouter.get('/add/:auth/:username/:password', (req, res) => {
  * @apiGroup Users
  *
  * @apiParam {String} auth Your authentication string
- * @apiParam {String} username The name of the user to create
+ * @apiParam {String} username The name of the user to delete
  *
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 OK
@@ -115,7 +115,7 @@ usersRouter.get('/del/:auth/:username', (req, res) => {
  *
  * @apiErrorExample Error-Response:
  *     HTTP/1.1 200 OK
- *     {}
+ *     {error: NotExists}
  */
 usersRouter.get('/info/:username', (req, res) => {
     try {
