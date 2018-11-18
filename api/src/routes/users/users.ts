@@ -55,6 +55,35 @@ usersRouter.get('/add/:auth/:username/:password', (req, res) => {
     }
 });
 
+/**
+ * @api {get} /users/del/:auth/:username Delete user
+ * @apiVersion 1.0.0
+ * @apiName DeleteUser
+ * @apiGroup Users
+ *
+ * @apiParam {String} auth Your authentication string
+ * @apiParam {String} username The name of the user to create
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {status: 'DeletedUser'}
+ *
+ * @apiError NotExists A user with this name do not exists
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 200 OK
+ *     {error: 'NotExists'}
+ *
+ * @apiError NotAllowed You don't have the needed permission to delete a user or you try to delete the admin user
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 200 OK
+ *     {error: 'NotAllowed'}
+ *
+ * @apiError InvalidLogin Your authentication string is incorrect
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 200 OK
+ *     {error: 'InvalidLogin'}
+ */
+
 usersRouter.get('/del/:auth/:username', (req, res) => {
     if (isValid(req.params.auth)) {
         if (hasPermission(getUsername(req.params.auth), permissions.DELETE_USER) && req.params.username !== 'admin') {
