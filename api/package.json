@@ -47,6 +47,9 @@
     "version": "1.0.0",
     "description": "Documentation for deviceManagement",
     "title": "deviceManagement API",
+    "template": {
+      "forceLanguage": "en"
+    },
     "header": {
       "filename": "header.md"
     }
