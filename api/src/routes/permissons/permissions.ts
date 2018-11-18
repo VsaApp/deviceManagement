@@ -9,7 +9,8 @@ const uniq = (arrArg: any) => arrArg.filter((elem: any, pos: number, arr: any[])
 export enum permissions {
     ALL,
     CHANGE_PERMISSIONS,
-    CREATE_USER
+    CREATE_USER,
+    DELETE_USER
 }
 
 export const addPermission = (username: string, permission: permissions) => {

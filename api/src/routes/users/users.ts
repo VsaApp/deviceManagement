@@ -55,6 +55,23 @@ usersRouter.get('/add/:auth/:username/:password', (req, res) => {
     }
 });
 
+usersRouter.get('/del/:auth/:username', (req, res) => {
+    if (isValid(req.params.auth)) {
+        if (hasPermission(getUsername(req.params.auth), permissions.DELETE_USER) && req.params.username !== 'admin') {
+            if ((db.get('users') || []).map((user: { username: string }) => user.username).filter((username: string) => username === req.params.username).length === 0) {
+                res.json({error: 'NotExists'});
+            } else {
+                db.set('users', (db.get('users') || []).filter((user: {username: string, password: string, permissions: Array<string>}) => user.username !== req.params.username));
+                res.json({status: 'DeletedUser'});
+            }
+        } else {
+            res.json({error: 'NotAllowed'});
+        }
+    } else {
+        res.json({error: 'InvalidLogin'});
+    }
+});
+
 /**
  * @api {get} /users/info/:username List user information
  * @apiVersion 1.0.0
@@ -75,8 +92,9 @@ usersRouter.get('/info/:username', (req, res) => {
     try {
         const user = JSON.parse(JSON.stringify((db.get('users') || []).filter((user: { username: string }) => user.username === req.params.username)[0]));
         delete user.password;
-        res.json(user);
+        if (Object.keys(user).length === 0) res.json({error: 'NotExists'});
+        else res.json(user);
     } catch (e) {
-        res.json({});
+        res.json({error: 'NotExists'});
     }
 });
